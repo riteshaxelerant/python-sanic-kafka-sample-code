@@ -130,9 +130,30 @@ Run the user-service.sql file to create and setup the database and tables. Repea
         pip install confluent_kafka        
         ```
 
-
+    - ``http://< configured-ip-address >/users/login :`` This end-point is used to authenticate login using ``POST`` method. As a response it will gives user information.
+    - ``http://< configured-ip-address >/users/bd5f8583-83a4-40c4-8ec7-18a685eef130 :`` This end-point is used to get user information using ``GET`` method. The alphanumeric id represents the user id.
     - There were two methods. Either run directly through the python code or via sanic.
     - Command to run via sanic: ``sanic user-service:app --host=0.0.0.0 --port=1604 --dev``
     - Command to run via python: ``python user-service.py``
-    - ``http://< configured-ip-address >/users/login :`` This end-point is used to authenticate login using ``POST`` method. As a response it will gives user information.
-    - ``http://< configured-ip-address >/users/bd5f8583-83a4-40c4-8ec7-18a685eef130 :`` This end-point is used to get user information. The alphanumeric id represents the user id.
+    
+
+2. **Product Service End Points:** 
+    - Just like the above User Service same configurations and steps will be followed.
+    - ``http://< configured-ip-address >/products :`` This service end-point is used to create product using ``POST`` method. As a response it will gives an id of the product. Once a product get successfully created we were initiating producer to send a message to the appropriate topic ``product-update``.
+    - ``http://< configured-ip-address >/products/list/ :`` This end-point is used to get the listing of all the products using ``GET`` method. We can pass ``limit`` and ``offset`` parameter to get products in paginated form.
+    - ``http://< configured-ip-address >/products/bd5f8583-83a4-40c4-8ec7-18a685eef130 :`` This end-point is used to get product information using ``GET`` method. The alphanumeric id represents the product id.
+
+3. **Order Service End Points:** 
+    - Just like the above User Service same configurations and steps will be followed.
+    - ``http://< configured-ip-address >/orders :`` This service end-point is used to create order using ``POST`` method. As a response it will gives an id of the order. Once an order get successfully created we were initiating producer to send a message to the appropriate topic ``order-placed``. We are also checking if the user is valid from a table named ``registered_users`` in which a user id gets stored when registration happened from User Service via a consumer which is subscribed to ``user-registration`` topic.
+    - ``http://< configured-ip-address >/products/list/ :`` This end-point is used to get the listing of all the products using ``GET`` method. We can pass ``limit`` and ``offset`` parameter to get products in a paginated form.
+    - ``http://< configured-ip-address >/products/bd5f8583-83a4-40c4-8ec7-18a685eef130 :`` This end-point is used to get product information using ``GET`` method. The alphanumeric id represents the product id.
+    - File ``consumer.py`` is an individual python code to run consumer which were subscribed to some topics like ``user-registration``, ``payment-success`` and ``payment-failure`` and continuously running to catch success and failure of topic processing. In case of failure we were sending the errors to another topic called ``dlq``.
+
+4. **Payment Service End Points:** 
+    - Just like the above User Service same configurations and steps will be followed.
+    - ``http://< configured-ip-address >/payments :`` This service end-point is used to create payment using ``POST`` method. As a response it will gives an id of the payment. Once a payment get ``Paid / Failed`` we were initiating producer to send a message to the appropriate topic ``payment-success`` and ``payment-failure``.    
+    - ``http://< configured-ip-address >/payments/bd5f8583-83a4-40c4-8ec7-18a685eef130 :`` This end-point is used to get payment information using ``GET`` method. The alphanumeric id represents the payment id.
+
+## Postman collection for all the API's:
+Check the ``Microservice-Orders.postman_collection.json`` collection file to import in a postman to run the services.

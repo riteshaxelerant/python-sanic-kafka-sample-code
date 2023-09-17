@@ -1,0 +1,85 @@
+{
+	"info": {
+		"_postman_id": "b52c5a0f-2ea7-4e5e-a75c-ce317626367d",
+		"name": "Microservice-Orders",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25598881"
+	},
+	"item": [
+		{
+			"name": "placeOrder",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "mySecretToKen",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_id\":\"283f4b9a-18b1-4d1f-a849-bc3360f2ec1d\",\n    \"total_price\": 445.25,    \n    \"products\":[\n        {\n            \"product_id\": \"162029db-bc98-4659-bcf8-c28dd976d377\",\n            \"quantity\": 2,\n            \"price\": 10.52\n        },\n        {\n            \"product_id\": \"c92f804e-d280-4cda-a141-ff4ef5520249\",\n            \"quantity\": 5,\n            \"price\": 20.52\n        },\n        {\n            \"product_id\": \"ffd87dbf-b5b1-4867-8ae9-1b642706cf29\",\n            \"quantity\": 1,\n            \"price\": 40.52\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:1603 /orders/",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "1603 ",
+					"path": [
+						"orders",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOrder",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "mySecretToKen",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:1603 /orders/3ab9b383-6d9a-4955-b595-45d8f4ea60f6",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "1603 ",
+					"path": [
+						"orders",
+						"3ab9b383-6d9a-4955-b595-45d8f4ea60f6"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
