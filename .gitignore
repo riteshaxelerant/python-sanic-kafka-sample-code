@@ -1,0 +1,17 @@
+dist/.DS_Store
+.DS_Store
+/order-service/__pycache__
+/order-service/api/env_order
+/order-service/order_service_db/postgres_data
+
+/payment-service/api/__pycache__
+/payment-service/api/env_payment
+/payment-service/payment_service_db/postgres_data
+
+/product-service/api/__pycache__
+/product-service/api/env_product
+/product-service/product_service_db/postgres_data
+
+/user-service/api/__pycache__
+/user-service/api/env_user
+/user-service/user_service_db/postgres_data

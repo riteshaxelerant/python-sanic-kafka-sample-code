@@ -59,7 +59,7 @@ Here we will use docker to setup all the services.
 4. **Kafka setup:** To setup Kafka at your local machine, follow the [link](https://docs.confluent.io/platform/current/platform-quickstart.html#cp-quickstart-step-1) to install Kafka under the directory ``kafka``. After verifying the kafka installation check the Kafka clusters are running on your local environment [here](http://localhost:9021/clusters).
 5. **Virtual Python environment:** Since we already have a global installation of python, it is best to have a separate environment of python sanic framework for each microservice.
     - **Command to setup virtual environment:** ``` pip install virtualenv ```
-    - Navigate to your microservice directory say: ``cd user-service/`` and run the command ``virtualenv env_userservice`` where env_userservice is our environment name. To activate the virtual environment run the command ``source env_userservice/bin/activate``
+    - Navigate to your microservice directory say: ``cd user-service/api/`` and run the command ``virtualenv env_user `` where env_user is our environment name. To activate the virtual environment run the command ``source env_user/bin/activate``
     - Now we have to install sanic framework with in our virtual environment using this command: ``pip install sanic``
     - For posgresql connectivity with sanic framework we have to install asyncpg library with in our virtual environment using this command: ``pip install asyncpg``
     - For Kafka connectivity we have to install a kafka library with in our virtual environment using this command: ``pip install confluent-kafka``
@@ -115,3 +115,24 @@ Checkout the database script along with the tables we have put in sub-directory 
         
 ```
 Run the user-service.sql file to create and setup the database and tables. Repeat the same process for other microservice databases.
+
+## API and End points:
+1. **User Service End Points:** 
+    - We have used ``.env`` file to configure all necessary configurations related to database, kafka service and API host.
+    - We have also used a middleware authentication like ``bearer tokan`` to authenticate the API to restrict un-authorised access. A separate file named ``authentication.py`` is used and imported in main ``user-service.py`` file.
+    - ``http://< configured-ip-address >/users/register :`` This service end-point is used to make registration using ``POST`` method. As a response it will gives an id of the registered user. Once a user get successfully registers we were initiating producer to send a message to the appropriate topic ``user-registration``.
+    - To run the service, first we have to initialise the virtual environment of python, here in our case its ``env_user``. Navigate to the ``api`` directory and run the command ``source /env_user/bin/activate``. This will run the virtual environment. Then install the necessary sanic framework and its libraries like:
+
+        ```
+        pip install sanic
+        pip install python-decouple
+        pip install asyncpg
+        pip install confluent_kafka        
+        ```
+
+
+    - There were two methods. Either run directly through the python code or via sanic.
+    - Command to run via sanic: ``sanic user-service:app --host=0.0.0.0 --port=1604 --dev``
+    - Command to run via python: ``python user-service.py``
+    - ``http://< configured-ip-address >/users/login :`` This end-point is used to authenticate login using ``POST`` method. As a response it will gives user information.
+    - ``http://< configured-ip-address >/users/bd5f8583-83a4-40c4-8ec7-18a685eef130 :`` This end-point is used to get user information. The alphanumeric id represents the user id.
