@@ -1,6 +1,6 @@
 dist/.DS_Store
 .DS_Store
-/order-service/__pycache__
+/order-service/api/__pycache__
 /order-service/api/env_order
 /order-service/order_service_db/postgres_data
 
